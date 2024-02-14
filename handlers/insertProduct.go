@@ -17,8 +17,14 @@ func InsertProduct(e echo.Context) error {
 		return err
 	}
 	//json_map has the JSON Payload decoded into a map
-	nome := json_map["nome"].(string)
-	preco := json_map["preco"].(float64)
+	nome, ok := json_map["nome"].(string)
+	if ok {
+		return fmt.Errorf("O campo Nome é obrigatório! ")
+	}
+	preco, ok := json_map["preco"].(float64)
+	if ok {
+		return fmt.Errorf("O campo Preço é obrigatório! ")
+	}
 
 	produto := models.Produto{
 		Id:    uuid.New().String(),
